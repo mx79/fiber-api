@@ -40,7 +40,7 @@ func main() {
 		if utils.MapContains(body, "text") {
 			extractedData = ext.GetEntity(body["text"])
 		}
-		res, err = json.Marshal(extractedData)
+		res, _ = json.Marshal(extractedData)
 		return c.Send(res)
 	})
 

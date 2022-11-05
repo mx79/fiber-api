@@ -11,25 +11,8 @@ import (
 )
 
 func setupRoutes(app *fiber.App) {
-
-	// Give response when at /
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"success": true,
-			"message": "You are at the endpoint 😉",
-		})
-	})
-
 	// API group
 	api := app.Group("/api/v1")
-
-	// give response when at /api
-	api.Get("", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"success": true,
-			"message": "You are at the api endpoint 😉",
-		})
-	})
 
 	// Adding all routes
 	routes.MarqueModeleRoute(api.Group("/marque-modele"))

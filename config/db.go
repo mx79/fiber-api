@@ -11,13 +11,13 @@ import (
 	"time"
 )
 
-// MongoInstance : MongoInstance Struct
+// MongoInstance struct includes MongoClient and a MongoDatabase address related to this client
 type MongoInstance struct {
 	Client *mongo.Client
 	DB     *mongo.Database
 }
 
-// MI : An instance of MongoInstance Struct
+// MI is an instance of MongoInstance struct
 var MI MongoInstance
 
 // ConnectDB - database connection

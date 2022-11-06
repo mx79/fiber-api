@@ -1,91 +1,56 @@
 package controllers
 
-// TODO: Create methods : GetUsers, CreateUser, UpdateUser, DeleteUser
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/mx79/fiber-api/config"
+	"github.com/mx79/fiber-api/models"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"os"
+	"time"
+)
 
-// GetTodos : get all todos
-//func GetTodos(c *fiber.Ctx) error {
-//	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
-//
-//	// Query to filter
-//	query := bson.D{{}}
-//
-//	cursor, err := todoCollection.Find(c.Context(), query)
-//
-//	if err != nil {
-//		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-//			"success": false,
-//			"message": "Something went wrong",
-//			"error":   err.Error(),
-//		})
-//	}
-//
-//	var todos []models.Todo = make([]models.Todo, 0)
-//
-//	// iterate the cursor and decode each item into a Todo
-//	err = cursor.All(c.Context(), &todos)
-//	if err != nil {
-//		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-//			"success": false,
-//			"message": "Something went wrong",
-//			"error":   err.Error(),
-//		})
-//	}
-//
-//	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-//		"success": true,
-//		"data": fiber.Map{
-//			"todos": todos,
-//		},
-//	})
-//}
-//
-//// CreateTodo : Create a todo
-//func CreateTodo(c *fiber.Ctx) error {
-//	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
-//
-//	data := new(models.Todo)
-//
-//	err := c.BodyParser(&data)
-//
-//	// if error
-//	if err != nil {
-//		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-//			"success": false,
-//			"message": "Cannot parse JSON",
-//			"error":   err,
-//		})
-//	}
-//
-//	data.ID = nil
-//	f := false
-//	data.Completed = &f
-//	data.CreatedAt = time.Now()
-//	data.UpdatedAt = time.Now()
-//
-//	result, err := todoCollection.InsertOne(c.Context(), data)
-//
-//	if err != nil {
-//		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-//			"success": false,
-//			"message": "Cannot insert todo",
-//			"error":   err,
-//		})
-//	}
-//
-//	// get the inserted data
-//	todo := &models.Todo{}
-//	query := bson.D{{Key: "_id", Value: result.InsertedID}}
-//
-//	todoCollection.FindOne(c.Context(), query).Decode(todo)
-//
-//	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-//		"success": true,
-//		"data": fiber.Map{
-//			"todo": todo,
-//		},
-//	})
-//}
-//
+// CreateUser accept a POST request to create a new user in database
+// curl -X POST http://localhost:3000/api/v1/marque-modele
+// -H "Content-Type: application/json"
+// -d "{\"text\": \"J'ai un Renault Scenic monsieur\"}"
+func CreateUser(c *fiber.Ctx) error {
+	// Get users collection and parse the body of the request
+	users := config.MI.DB.Collection(os.Getenv("USER_COLLECTION"))
+	data := new(models.User)
+	err := c.BodyParser(&data)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "Cannot parse JSON",
+			"error":   err,
+		})
+	}
+	// Set user attributes
+	data.ID = primitive.NewObjectID()
+	data.CreatedAt = time.Now()
+	data.UpdatedAt = time.Now()
+	result, err := users.InsertOne(c.Context(), data)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "Cannot insert user",
+			"error":   err,
+		})
+	}
+	// Get the inserted data
+	user := &models.User{}
+	query := bson.M{"_id": result.InsertedID}
+	users.FindOne(c.Context(), query).Decode(user)
+
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"success": true,
+		"data": fiber.Map{
+			"todo": user,
+		},
+	})
+}
+
 //// GetTodo : get a single todo
 //// PARAM: id
 //func GetTodo(c *fiber.Ctx) error {

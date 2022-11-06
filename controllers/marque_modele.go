@@ -11,7 +11,10 @@ import (
 var mmExtractor = extractor.NewRegexExtractor("./resources/marque_modele.json")
 
 // QueryMarqueModele is the handler func for "post" request to http://localhost:3000/api/v1/marque-modele, this endpoint can be tested like this:
-// curl -X POST http://localhost:3000/api/v1/marque-modele -H "X-API-KEY: 6366d1e468026921bb3194ab" -H "Content-Type: application/json" -d "{\"text\": \"J'ai un Renault Scenic monsieur\"}"
+// curl -X POST http://localhost:3000/api/v1/marque-modele
+// -H "X-API-KEY: e6b087d4-0c9d-4043-9a72-ffe734811471"
+// -H "Content-Type: application/json"
+// -d "{\"text\": \"J'ai un Renault Scenic monsieur\"}"
 func QueryMarqueModele(c *fiber.Ctx) error {
 	var (
 		body          map[string]string
@@ -24,7 +27,7 @@ func QueryMarqueModele(c *fiber.Ctx) error {
 		return err
 	}
 	// Unmarshalling request body before processing it
-	err = json.Unmarshal(c.Body(), &body)
+	err = c.BodyParser(&body)
 	if err != nil {
 		return err
 	}

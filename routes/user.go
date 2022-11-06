@@ -1,12 +1,14 @@
 package routes
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/mx79/fiber-api/controllers"
+)
 
-// TODO: Create route handler here
-
-type User struct {
-	ID        primitive.ObjectID `bson:"_id" json:"id,omitempty"`
-	FirstName string             `json:"firstname"`
-	LastName  string             `json:"lastname"`
-	Email     string             `json:"email"`
+// UserRoute
+func UserRoute(route fiber.Router) {
+	route.Get("/:id")                      // Get user by id
+	route.Post("", controllers.CreateUser) // Create user
+	route.Put("/:id")                      // Update user
+	route.Delete("/:id")                   // Delete user
 }

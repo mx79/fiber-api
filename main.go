@@ -15,6 +15,7 @@ func setupRoutes(app *fiber.App) {
 	api := app.Group("/api/v1")
 
 	// Adding all routes
+	routes.UserRoute(api.Group("/users"))
 	routes.MarqueModeleRoute(api.Group("/marque-modele"))
 }
 

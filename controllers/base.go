@@ -4,7 +4,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/mx79/fiber-api/config"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"os"
 )
 
@@ -18,17 +17,13 @@ import (
 // user API quto and check if the provided key exists or not
 func checkApiKey(c *fiber.Ctx) error {
 	// Reading X-API-KEY from header
-	res := string(c.Request().Header.Peek("X-API-KEY"))
+	apiKey := string(c.Request().Header.Peek("X-API-KEY"))
 	// Check if X-API-KEY is in DB
+	user := &bson.M{}
 	users := config.MI.DB.Collection(os.Getenv("USER_COLLECTION"))
-	apiKey, err := primitive.ObjectIDFromHex(res)
+	err := users.FindOne(c.Context(), bson.M{"api_key": apiKey}).Decode(user)
 	if err != nil {
-		return fiber.NewError(500, "Invalid or wrong API Key")
-	}
-	var user bson.M
-	err = users.FindOne(c.Context(), bson.M{"_id": apiKey}).Decode(&user)
-	if err != nil {
-		return fiber.NewError(500, "Invalid or wrong API Key")
+		return fiber.NewError(401, "Invalid or wrong API Key")
 	}
 
 	return nil

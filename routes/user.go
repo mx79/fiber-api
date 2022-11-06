@@ -7,8 +7,8 @@ import (
 
 // UserRoute
 func UserRoute(route fiber.Router) {
-	route.Get("/:id")                      // Get user by id
-	route.Post("", controllers.CreateUser) // Create user
-	route.Put("/:id")                      // Update user
-	route.Delete("/:id")                   // Delete user
+	//route.Get("/:id")                      // Get user by id
+	route.Post("", controllers.CreateUser)       // Create user
+	route.Put("/:id", controllers.UpdateUser)    // Update user
+	route.Delete("/:id", controllers.DeleteTodo) // Delete user
 }

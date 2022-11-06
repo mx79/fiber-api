@@ -227,6 +227,5 @@ func DeleteTodo(c *fiber.Ctx) error {
 			"error":   err,
 		})
 	}
-
 	return c.SendStatus(fiber.StatusNoContent)
 }

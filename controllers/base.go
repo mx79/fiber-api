@@ -14,7 +14,7 @@ import (
 //})
 
 // checkApiKey is verifying the X-API-KEY provided in header in order to update
-// user API quto and check if the provided key exists or not
+// user API quota and check if the provided key exists or not
 func checkApiKey(c *fiber.Ctx) error {
 	// Reading X-API-KEY from header
 	apiKey := string(c.Request().Header.Peek("X-API-KEY"))

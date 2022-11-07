@@ -10,7 +10,8 @@ import (
 // Loading extractor for brand and model of vehicle
 var mmExtractor = extractor.NewRegexExtractor("./resources/marque_modele.json")
 
-// QueryMarqueModele is the handler func for "post" request to http://localhost:3000/api/v1/marque-modele, this endpoint can be tested like this:
+// QueryMarqueModele is the handler func for "post" request to http://localhost:3000/api/v1/marque-modele,
+// This endpoint can be tested like this:
 // curl -X POST http://localhost:3000/api/v1/marque-modele
 // -H "X-API-KEY: e6b087d4-0c9d-4043-9a72-ffe734811471"
 // -H "Content-Type: application/json"

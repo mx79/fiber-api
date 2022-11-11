@@ -1,4 +1,4 @@
-package controllers
+package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -13,11 +13,13 @@ import (
 //	res[string(key)] = string(value)
 //})
 
-// checkApiKey is verifying the X-API-KEY provided in header in order to update
-// user API quota and check if the provided key exists or not
+// checkApiKey is verifying the X-API-KEY provided in header.
+//
+// This allows to update user API quota and check if the provided key exists or not
 func checkApiKey(c *fiber.Ctx) error {
 	// Reading X-API-KEY from header
 	apiKey := string(c.Request().Header.Peek("X-API-KEY"))
+
 	// Check if X-API-KEY is in DB
 	user := &bson.M{}
 	users := config.MI.DB.Collection(os.Getenv("USER_COLLECTION"))

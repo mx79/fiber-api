@@ -10,12 +10,7 @@ import (
 	"os"
 )
 
-// setupRoutes
-// Query examples for each api route
-// curl -X POST http://localhost:3000/api/v1/marque-modele -H "Content-Type: application/json" -H "X-API-KEY: 3c05efa8-14c3-4413-834e-e2dfc982fbf9" -d "{\"text\": \"Ouais c'est un renault Mégane de Clio en fait une peugeot ou bien une citroen je sais plus\"}"
-// curl -X POST http://localhost:3000/api/v1/stemmer -H "Content-Type: application/json" -H "X-API-KEY: 3c05efa8-14c3-4413-834e-e2dfc982fbf9" -d "{\"text\": \"je me suis trompé de carburant pour ma voiture c'est la catastrophe elle fait un bruit bizarre\"}"
-// curl -X POST http://localhost:3000/api/v1/stopword -H "Content-Type: application/json" -H "X-API-KEY: 3c05efa8-14c3-4413-834e-e2dfc982fbf9" -d "{\"text\": \"Là je suis en vacances avec mes parents, j'espère que le programme n'est pas trop long à tourner quand même\"}"
-// curl -X POST http://localhost:3000/api/v1/rake -H "Content-Type: application/json" -H "X-API-KEY: 3c05efa8-14c3-4413-834e-e2dfc982fbf9" -d "{\"text\": \"The growing doubt of human autonomy and reason has created a state of moral confusion where man is left without the guidance of either revelation or reason. The result is the acceptance of a relativistic position which proposes that value judgements and ethical norms are exclusively matters of arbitrary preference and that no objectively valid statement can be made in this realm... But since man cannot live without values and norms, this relativism makes him an easy prey for irrational value systems.\"}"
+// setupRoutes set up all api route declared in the package "routes"
 func setupRoutes(app *fiber.App) {
 	// API group
 	api := app.Group("/api/v1")
@@ -26,6 +21,11 @@ func setupRoutes(app *fiber.App) {
 	routes.StemmerRoute(api.Group("/stemmer"))
 	routes.StopwordRoute(api.Group("/stopword"))
 	routes.RakeRoute(api.Group("/rake"))
+	routes.SegmenterRoute(api.Group("/segmenter"))
+	routes.PosTaggingRoute(api.Group("/pos-tagging"))
+	routes.NerRoute(api.Group("/ner"))
+	routes.SentimentRoute(api.Group("/sentiment"))
+	routes.WerRoute(api.Group("/wer"))
 }
 
 func main() {

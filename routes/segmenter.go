@@ -3,30 +3,27 @@ package routes
 import (
 	"encoding/json"
 	"github.com/gofiber/fiber/v2"
-	"github.com/mx79/go-nlp/extractor"
+	"github.com/jdkato/prose/v2"
 	"github.com/mx79/go-nlp/utils"
 )
 
-// Loading extractor for brand and model of vehicle
-var mmExtractor = extractor.NewLookupExtractor("./resources/marque_modele.json", extractor.IGNORECASE)
-
-// MarqueModeleRoute
-func MarqueModeleRoute(route fiber.Router) {
-	route.Post("", queryMarqueModele)
+// SegmenterRoute
+func SegmenterRoute(route fiber.Router) {
+	route.Post("", QuerySegmenter)
 }
 
-// queryMarqueModele is the handler func for "post" request to http://localhost:3000/api/v1/marque-modele.
+// QuerySegmenter is the handler func for "post" request to http://localhost:3000/api/v1/segmenter,
 //
 // This endpoint can be tested like this:
 //
-//	curl -X POST http://localhost:3000/api/v1/marque-modele
+//	curl -X POST http://localhost:3000/api/v1/segmenter
 //	-H "X-API-KEY: e6b087d4-0c9d-4043-9a72-ffe734811471"
 //	-H "Content-Type: application/json"
 //	-d "{\"text\": \"(text...)\"}"
-func queryMarqueModele(c *fiber.Ctx) error {
+func QuerySegmenter(c *fiber.Ctx) error {
 	var (
 		body          map[string]string
-		extractedData map[string]interface{}
+		extractedData []string
 		res           []byte
 	)
 
@@ -42,9 +39,13 @@ func queryMarqueModele(c *fiber.Ctx) error {
 		return err
 	}
 
-	// Extracting information or returning empty dict if no one
+	// Segmenting document information
 	if utils.MapContains(body, "text") {
-		extractedData = mmExtractor.GetEntity(body["text"])
+		doc, _ := prose.NewDocument(body["text"])
+		sents := doc.Sentences()
+		for _, sent := range sents {
+			extractedData = append(extractedData, sent.Text)
+		}
 	}
 	res, _ = json.Marshal(extractedData)
 

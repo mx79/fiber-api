@@ -75,7 +75,7 @@ func createUser(c *fiber.Ctx) error {
 
 	// Get the inserted data
 	user := &models.User{}
-	users.FindOne(c.Context(), bson.M{"_id": result.InsertedID}).Decode(user)
+	_ = users.FindOne(c.Context(), bson.M{"_id": result.InsertedID}).Decode(user)
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"success": true,
@@ -192,7 +192,7 @@ func updateUser(c *fiber.Ctx) error {
 
 	// Get updated data
 	user := &models.User{}
-	users.FindOne(c.Context(), bson.M{"_id": id}).Decode(user)
+	_ = users.FindOne(c.Context(), bson.M{"_id": id}).Decode(user)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"success": true,

@@ -5,8 +5,10 @@ import (
 	"github.com/mx79/go-nlp/base"
 	"github.com/mx79/go-nlp/clean"
 	"github.com/mx79/go-nlp/utils"
-	"github.com/rylans/getlang"
 )
+
+// stemmer object responsible for the cleaning of the text
+var stemmer = clean.NewStemmer(base.EN)
 
 // StemmerRoute set up api route for the Stemming service
 func StemmerRoute(route fiber.Router) {
@@ -41,8 +43,6 @@ func queryStemmer(c *fiber.Ctx) error {
 
 	// Stemming the text if possible
 	if utils.MapContains(body, "text") {
-		info := getlang.FromString(body["text"])
-		stemmer := clean.NewStemmer(base.Lang(info.LanguageCode()))
 		res = stemmer.Stem(body["text"])
 	} else {
 		return fiber.NewError(400, "The \"text\" parameter is missing in the request body")

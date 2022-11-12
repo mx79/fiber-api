@@ -5,8 +5,10 @@ import (
 	"github.com/mx79/go-nlp/base"
 	"github.com/mx79/go-nlp/clean"
 	"github.com/mx79/go-nlp/utils"
-	"github.com/rylans/getlang"
 )
+
+// stopword object responsible for the cleaning of the text
+var stopword = clean.NewStopwords(base.EN)
 
 // StopwordRoute set up api route for the Stopword service
 func StopwordRoute(route fiber.Router) {
@@ -41,9 +43,7 @@ func queryStopword(c *fiber.Ctx) error {
 
 	// Remove stopword in the text if possible
 	if utils.MapContains(body, "text") {
-		info := getlang.FromString(body["text"])
-		stemmer := clean.NewStopwords(base.Lang(info.LanguageCode()))
-		res = stemmer.Stop(body["text"])
+		res = stopword.Stop(body["text"])
 	} else {
 		return fiber.NewError(400, "The \"text\" parameter is missing in the request body")
 	}

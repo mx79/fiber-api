@@ -7,6 +7,9 @@ import (
 	"github.com/mx79/go-nlp/utils"
 )
 
+// sentimentAnalyzer is the object responsible for the Sentiment Analysis process.
+//
+// It holds any necessary methods including PolarityScores
 var sentimentAnalyzer = govader.NewSentimentIntensityAnalyzer()
 
 // SentimentRoute set up api route for the Sentiment Analysis service

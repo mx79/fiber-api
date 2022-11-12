@@ -7,6 +7,7 @@ import (
 	"github.com/mx79/go-nlp/utils"
 )
 
+// WerRoute set up api route for the Word Error Rate calculation
 func WerRoute(router fiber.Router) {
 	router.Post("", queryWer)
 }

@@ -10,7 +10,7 @@ import (
 // Loading extractor for brand and model of vehicle
 var mmExtractor = extractor.NewLookupExtractor("./resources/marque_modele.json", extractor.IGNORECASE)
 
-// MarqueModeleRoute
+// MarqueModeleRoute set up api route for the extractor of brand and model of vehicle
 func MarqueModeleRoute(route fiber.Router) {
 	route.Post("", queryMarqueModele)
 }

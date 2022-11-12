@@ -22,11 +22,10 @@ func NerRoute(router fiber.Router) {
 //	-d "{\"text\": \"(text...)\"}"
 func queryNer(c *fiber.Ctx) error {
 	var (
-		body   map[string]string
-		entMap map[string]string
-		res    []byte
+		body map[string]string
+		res  []byte
 	)
-
+	entMap := make(map[string]string)
 	// Checking X-API-KEY of the request to see if user is allowed or not
 	err := checkApiKey(c)
 	if err != nil {

@@ -39,11 +39,13 @@ func queryStemmer(c *fiber.Ctx) error {
 		return err
 	}
 
-	// Extracting information or returning empty dict if no one
+	// Stemming the text if possible
 	if utils.MapContains(body, "text") {
 		info := getlang.FromString(body["text"])
 		stemmer := clean.NewStemmer(base.Lang(info.LanguageCode()))
 		res = stemmer.Stem(body["text"])
+	} else {
+		return fiber.NewError(400, "Missing parameter text in request body")
 	}
 
 	return c.SendString(res)

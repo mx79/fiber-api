@@ -1,6 +1,13 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"encoding/json"
+	"github.com/gofiber/fiber/v2"
+	"github.com/jonreiter/govader"
+	"github.com/mx79/go-nlp/utils"
+)
+
+var sentimentAnalyzer = govader.NewSentimentIntensityAnalyzer()
 
 // SentimentRoute set up api route for the Sentiment Analysis service
 func SentimentRoute(router fiber.Router) {
@@ -16,6 +23,34 @@ func SentimentRoute(router fiber.Router) {
 //	-H "Content-Type: application/json"
 //	-d "{\"text\": \"(text...)\"}"
 func querySentiment(c *fiber.Ctx) error {
-	var res []byte
+	var (
+		body map[string]string
+		res  []byte
+	)
+	resMap := make(map[string]float64)
+
+	// Checking X-API-KEY of the request to see if user is allowed or not
+	err := checkApiKey(c)
+	if err != nil {
+		return err
+	}
+
+	// Unmarshalling request body before processing it
+	err = c.BodyParser(&body)
+	if err != nil {
+		return err
+	}
+
+	// Sentiment analysis scores of the text
+	if utils.MapContains(body, "text") {
+		sentiment := sentimentAnalyzer.PolarityScores(body["text"])
+		resMap["positive"] = sentiment.Positive
+		resMap["neutral"] = sentiment.Neutral
+		resMap["negative"] = sentiment.Negative
+	} else {
+		return fiber.NewError(400, "Missing parameter text in request body")
+	}
+	res, _ = json.Marshal(resMap)
+
 	return c.Send(res)
 }

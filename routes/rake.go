@@ -36,12 +36,14 @@ func queryRake(c *fiber.Ctx) error {
 		return err
 	}
 
-	// Extracting information or returning empty dict if no one
+	// Performs the rake algorithm on text
 	if utils.MapContains(body, "text") {
 		keywords := rake.RunRake(body["text"])
 		for _, keyword := range keywords {
 			keywordsMap[keyword.Key] = keyword.Value
 		}
+	} else {
+		return fiber.NewError(400, "Missing parameter text in request body")
 	}
 	res, _ := json.Marshal(keywordsMap)
 

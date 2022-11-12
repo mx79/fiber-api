@@ -39,11 +39,13 @@ func queryStopword(c *fiber.Ctx) error {
 		return err
 	}
 
-	// Extracting information or returning empty dict if no one
+	// Remove stopword in the text if possible
 	if utils.MapContains(body, "text") {
 		info := getlang.FromString(body["text"])
 		stemmer := clean.NewStopwords(base.Lang(info.LanguageCode()))
 		res = stemmer.Stop(body["text"])
+	} else {
+		return fiber.NewError(400, "Missing parameter text in request body")
 	}
 
 	return c.SendString(res)

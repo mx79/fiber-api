@@ -46,6 +46,8 @@ func QuerySegmenter(c *fiber.Ctx) error {
 		for _, sent := range sents {
 			extractedData = append(extractedData, sent.Text)
 		}
+	} else {
+		return fiber.NewError(400, "Missing parameter text in request body")
 	}
 	res, _ = json.Marshal(extractedData)
 

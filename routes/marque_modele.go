@@ -45,6 +45,8 @@ func queryMarqueModele(c *fiber.Ctx) error {
 	// Extracting information or returning empty dict if no one
 	if utils.MapContains(body, "text") {
 		extractedData = mmExtractor.GetEntity(body["text"])
+	} else {
+		return fiber.NewError(400, "Missing parameter text in request body")
 	}
 	res, _ = json.Marshal(extractedData)
 

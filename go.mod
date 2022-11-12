@@ -18,6 +18,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/jdkato/prose/v2 v2.0.0 // indirect
+	github.com/jonreiter/govader v0.0.0-20220408022859-68ffa1d6eff4 // indirect
 	github.com/klauspost/compress v1.15.12 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect

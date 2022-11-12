@@ -35,7 +35,11 @@ func queryWer(c *fiber.Ctx) error {
 	// Unmarshalling request body before processing it
 	err = c.BodyParser(&body)
 	if err != nil {
-		return err
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "Unable to parse the body of the request",
+			"error":   err,
+		})
 	}
 
 	// Pos Tagging document information
@@ -43,10 +47,18 @@ func queryWer(c *fiber.Ctx) error {
 		if utils.MapContains(body, "text2") {
 			res = fmt.Sprintf("%v", distance.WordErrorRate(body["text1"], body["text2"]))
 		} else {
-			return fiber.NewError(400, "The \"text2\" parameter is missing in the request body")
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"success": false,
+				"message": "The \"text2\" parameter is missing in the request body",
+				"error":   err,
+			})
 		}
 	} else {
-		return fiber.NewError(400, "The \"text1\" parameter is missing in the request body")
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "The \"text1\" parameter is missing in the request body",
+			"error":   err,
+		})
 	}
 
 	return c.SendString(res)

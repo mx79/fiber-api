@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/mx79/fiber-api/config"
 	"go.mongodb.org/mongo-driver/bson"
+	"golang.org/x/crypto/bcrypt"
 	"os"
 )
 
@@ -12,6 +13,20 @@ import (
 //c.Request().Header.VisitAll(func(key, value []byte) {
 //	res[string(key)] = string(value)
 //})
+
+// hashPassword mixes the entered password and return its hash
+func hashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+// checkPasswordHash verifies and compares the entered password and the related hash of this one
+//
+// If there is a match, returns true, if no match is found, returns false
+func checkPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
 
 // checkApiKey is verifying the X-API-KEY provided in header.
 //
@@ -25,7 +40,11 @@ func checkApiKey(c *fiber.Ctx) error {
 	users := config.MI.DB.Collection(os.Getenv("USER_COLLECTION"))
 	err := users.FindOne(c.Context(), bson.M{"api_key": apiKey}).Decode(user)
 	if err != nil {
-		return fiber.NewError(401, "Invalid or wrong API Key")
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"success": false,
+			"message": "Invalid or wrong API Key",
+			"error":   err,
+		})
 	}
 
 	return nil

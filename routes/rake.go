@@ -33,7 +33,11 @@ func queryRake(c *fiber.Ctx) error {
 	// Unmarshalling request body before processing it
 	err = c.BodyParser(&body)
 	if err != nil {
-		return err
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "Unable to parse the body of the request",
+			"error":   err,
+		})
 	}
 
 	// Performs the rake algorithm on text
@@ -43,7 +47,11 @@ func queryRake(c *fiber.Ctx) error {
 			keywordsMap[keyword.Key] = keyword.Value
 		}
 	} else {
-		return fiber.NewError(400, "The \"text\" parameter is missing in the request body")
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "The \"text\" parameter is missing in the request body",
+			"error":   err,
+		})
 	}
 	res, _ := json.Marshal(keywordsMap)
 

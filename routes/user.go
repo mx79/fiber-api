@@ -7,7 +7,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"golang.org/x/crypto/bcrypt"
 	"os"
 	"time"
 )
@@ -18,20 +17,6 @@ func UserRoute(route fiber.Router) {
 	route.Post("", createUser)       // Create user
 	route.Put("/:id", updateUser)    // Update user
 	route.Delete("/:id", deleteUser) // Delete user
-}
-
-// hashPassword mixes the entered password and return its hash
-func hashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
-
-// checkPasswordHash verifies and compares the entered password and the related hash of this one
-//
-// If there is a match, returns true, if no match is found, returns false
-func checkPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
 }
 
 // createUser accept a POST request to create a new user in database

@@ -20,7 +20,7 @@ func hashPassword(password string) (string, error) {
 	return string(bytes), err
 }
 
-// checkPasswordHash verifies and compares the entered password and the related hash of this one
+// checkPasswordHash checks and compares the entered password and the related hash of this one
 //
 // If there is a match, returns true, if no match is found, returns false
 func checkPasswordHash(password, hash string) bool {
@@ -28,9 +28,9 @@ func checkPasswordHash(password, hash string) bool {
 	return err == nil
 }
 
-// checkApiKey is verifying the X-API-KEY provided in header.
+// checkApiKey checks the X-API-KEY provided in the header.
 //
-// This allows to update user API quota and check if the provided key exists or not
+// This updates the user's API quota and checks whether the provided key exists or not.
 func checkApiKey(c *fiber.Ctx) error {
 	// Reading X-API-KEY from header
 	apiKey := string(c.Request().Header.Peek("X-API-KEY"))

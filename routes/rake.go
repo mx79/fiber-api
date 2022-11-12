@@ -43,7 +43,7 @@ func queryRake(c *fiber.Ctx) error {
 			keywordsMap[keyword.Key] = keyword.Value
 		}
 	} else {
-		return fiber.NewError(400, "Missing parameter text in request body")
+		return fiber.NewError(400, "The \"text\" parameter is missing in the request body")
 	}
 	res, _ := json.Marshal(keywordsMap)
 

@@ -45,7 +45,7 @@ func queryStopword(c *fiber.Ctx) error {
 		stemmer := clean.NewStopwords(base.Lang(info.LanguageCode()))
 		res = stemmer.Stop(body["text"])
 	} else {
-		return fiber.NewError(400, "Missing parameter text in request body")
+		return fiber.NewError(400, "The \"text\" parameter is missing in the request body")
 	}
 
 	return c.SendString(res)

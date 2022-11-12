@@ -46,7 +46,7 @@ func queryPosTagging(c *fiber.Ctx) error {
 			resMap[tok.Tag] = tok.Text
 		}
 	} else {
-		return fiber.NewError(400, "Missing parameter text in request body")
+		return fiber.NewError(400, "The \"text\" parameter is missing in the request body")
 	}
 	res, _ = json.Marshal(resMap)
 

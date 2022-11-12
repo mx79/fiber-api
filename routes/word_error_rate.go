@@ -43,10 +43,10 @@ func queryWer(c *fiber.Ctx) error {
 		if utils.MapContains(body, "text2") {
 			res = fmt.Sprintf("%v", distance.WordErrorRate(body["text1"], body["text2"]))
 		} else {
-			return fiber.NewError(400, "Missing parameter text2 in request body")
+			return fiber.NewError(400, "The \"text2\" parameter is missing in the request body")
 		}
 	} else {
-		return fiber.NewError(400, "Missing parameter text1 in request body")
+		return fiber.NewError(400, "The \"text1\" parameter is missing in the request body")
 	}
 
 	return c.SendString(res)

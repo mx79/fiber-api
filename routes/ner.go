@@ -44,6 +44,8 @@ func queryNer(c *fiber.Ctx) error {
 		for _, ent := range doc.Entities() {
 			entMap[ent.Label] = ent.Text
 		}
+	} else {
+		return fiber.NewError(400, "The \"text\" parameter is missing in the request body")
 	}
 	res, _ = json.Marshal(entMap)
 

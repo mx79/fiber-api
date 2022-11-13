@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/mx79/fiber-api/config"
-	"github.com/mx79/fiber-api/models"
+	"github.com/mx79/fiber-api/pkg/config"
+	"github.com/mx79/fiber-api/pkg/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

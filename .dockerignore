@@ -1,0 +1,12 @@
+.dockerignore
+.gitignore
+Dockerfile
+.env
+**/*.md
+**/*_test.go
+
+# Folders
+.git/
+.github/
+.cache/
+tmp/

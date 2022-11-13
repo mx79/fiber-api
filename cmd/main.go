@@ -3,9 +3,8 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	env "github.com/joho/godotenv"
-	"github.com/mx79/fiber-api/config"
-	"github.com/mx79/fiber-api/routes"
+	"github.com/mx79/fiber-api/pkg/config"
+	routes2 "github.com/mx79/fiber-api/pkg/routes"
 	"log"
 	"os"
 )
@@ -16,15 +15,15 @@ func setupRoutes(app *fiber.App) {
 	api := app.Group("/api/v1")
 
 	// Adding all routes
-	routes.UserRoute(api.Group("/users"))
-	routes.StemmerRoute(api.Group("/stemmer"))
-	routes.StopwordRoute(api.Group("/stopword"))
-	routes.RakeRoute(api.Group("/rake"))
-	routes.SegmenterRoute(api.Group("/segmenter"))
-	routes.PosTaggingRoute(api.Group("/pos-tagging"))
-	routes.NerRoute(api.Group("/ner"))
-	routes.SentimentRoute(api.Group("/sentiment"))
-	routes.WerRoute(api.Group("/wer"))
+	routes2.UserRoute(api.Group("/users"))
+	routes2.StemmerRoute(api.Group("/stemmer"))
+	routes2.StopwordRoute(api.Group("/stopword"))
+	routes2.RakeRoute(api.Group("/rake"))
+	routes2.SegmenterRoute(api.Group("/segmenter"))
+	routes2.PosTaggingRoute(api.Group("/pos-tagging"))
+	routes2.NerRoute(api.Group("/ner"))
+	routes2.SentimentRoute(api.Group("/sentiment"))
+	routes2.WerRoute(api.Group("/wer"))
 }
 
 func main() {
@@ -33,10 +32,10 @@ func main() {
 	app.Use(logger.New())
 
 	// Loading env file
-	err := env.Load(".env")
-	if err != nil {
-		log.Fatal("Unable to load .env file")
-	}
+	//err := env.Load(".env")
+	//if err != nil {
+	//	log.Fatal("Unable to load .env file")
+	//}
 
 	// Connecting to MongoDB cluster
 	config.ConnectDB()

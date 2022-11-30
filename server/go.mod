@@ -1,13 +1,14 @@
-module github.com/mx79/fiber-api
+module github.com/mx79/fiber-api/server
 
 go 1.19
 
 require (
 	github.com/afjoseph/RAKE.Go v0.0.0-20191109090147-068a9e43b194
 	github.com/gofiber/fiber/v2 v2.39.0
+	github.com/jdkato/prose/v2 v2.0.0
 	github.com/joho/godotenv v1.4.0
+	github.com/jonreiter/govader v0.0.0-20220408022859-68ffa1d6eff4
 	github.com/mx79/go-nlp v0.1.5
-	github.com/rylans/getlang v0.0.0-20201227074721-9e7f44ff8aa0
 	go.mongodb.org/mongo-driver v1.11.0
 	golang.org/x/crypto v0.1.0
 )
@@ -16,9 +17,6 @@ require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/deckarep/golang-set v1.7.1 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
-	github.com/google/go-cmp v0.5.7 // indirect
-	github.com/jdkato/prose/v2 v2.0.0 // indirect
-	github.com/jonreiter/govader v0.0.0-20220408022859-68ffa1d6eff4 // indirect
 	github.com/klauspost/compress v1.15.12 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect

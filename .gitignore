@@ -1,2 +1,2 @@
-.env
-/tmp
+server/.env
+/server/tmp/

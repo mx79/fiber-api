@@ -52,7 +52,7 @@ func createUser(c *fiber.Ctx) error {
 	if err == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "The entered email adress already exists",
+			"message": "The entered email address already exists",
 			"error":   err,
 		})
 	}
